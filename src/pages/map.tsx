@@ -5,7 +5,7 @@ import styles from './page.module.scss';
 
 const containerStyle = {
     width: '100%',
-    height: '90vh', // Full screen height
+    height: '94vh', // Full screen height
   };
   
   const center = {
