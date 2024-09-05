@@ -3,7 +3,7 @@ const Header = () => {
       <header>
         <nav className="navbar navbar-expand-lg fixed-top navbar-light bg-white">
           <div className="container">
-            <a href="https://gotruck.online/#how-to-section" className="navbar-brand"></a>
+            <a href="" className="navbar-brand"></a>
             <button
               className="navbar-toggler"
               type="button"
@@ -18,12 +18,12 @@ const Header = () => {
             <div className="collapse navbar-collapse" id="navbarText">
               <ul className="navbar-nav mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link" href="https://gotruck.online/#how-to-section">
+                  <a className="nav-link" href="">
                     Proqram necə işləyir?
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="https://gotruck.online/#faq">
+                  <a className="nav-link" href="">
                     Tez-tez verilən suallar
                   </a>
                 </li>
