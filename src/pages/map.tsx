@@ -27,7 +27,7 @@ const MapPage: React.FC = () => {
                     </Map>
                 </APIProvider>
                 <div className={styles.sideDiv}>
-                    <h2>Yola Davam</h2>
+                    <h2 className='text-2xl font-bold'>Yola Davam</h2>
                 </div>
             </div>
         </>
