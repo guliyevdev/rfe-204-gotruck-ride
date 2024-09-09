@@ -1,2 +1,8 @@
 @import url('./scss/bootstrap.css');
 @import url('./reset.css');
+@import url('./style.scss');
+
+
+html, body {
+    font-family: Inter;
+}
