@@ -1,4 +1,4 @@
-import  { useEffect, useState, useCallback, FormEvent } from 'react';
+import { useEffect, useState, useCallback, FormEvent } from 'react';
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { Input } from 'antd';
 import styles from './page.module.scss';
@@ -91,7 +91,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   );
 
   return (
-    <div className="">
+    <div className={styles.sideDiv}>
       <h2 className='text-2xl font-bold'>Yola Davam</h2>
       <div className="autocomplete-container" >
         <Input
@@ -106,7 +106,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
               return (
                 <li
                   key={place_id}
-                  className="custom-list-item"
+                  className="custom-list-item py-2 text-base"
                   onClick={() => handleSuggestionClick(place_id)}>
                   {description}
                 </li>
