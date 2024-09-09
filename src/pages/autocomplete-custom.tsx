@@ -1,5 +1,7 @@
-import React, {useEffect, useState, useCallback, FormEvent} from 'react';
-import {useMap, useMapsLibrary} from '@vis.gl/react-google-maps';
+import  { useEffect, useState, useCallback, FormEvent } from 'react';
+import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
+import { Input } from 'antd';
+import styles from './page.module.scss';
 
 interface Props {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
@@ -7,7 +9,7 @@ interface Props {
 
 // This is a custom built autocomplete component using the "Autocomplete Service" for predictions
 // and the "Places Service" for place details
-export const AutocompleteCustom = ({onPlaceSelect}: Props) => {
+export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   const map = useMap();
   const places = useMapsLibrary('places');
 
@@ -46,7 +48,7 @@ export const AutocompleteCustom = ({onPlaceSelect}: Props) => {
         return;
       }
 
-      const request = {input: inputValue, sessionToken};
+      const request = { input: inputValue, sessionToken };
       const response = await autocompleteService.getPlacePredictions(request);
 
       setPredictionResults(response.predictions);
@@ -89,27 +91,30 @@ export const AutocompleteCustom = ({onPlaceSelect}: Props) => {
   );
 
   return (
-    <div className="autocomplete-container">
-      <input
-        value={inputValue}
-        onInput={(event: FormEvent<HTMLInputElement>) => onInputChange(event)}
-        placeholder="Search for a place"
-      />
-  
-      {predictionResults.length > 0 && (
-        <ul className="custom-list">
-          {predictionResults.map(({place_id, description}) => {
-            return (
-              <li
-                key={place_id}
-                className="custom-list-item"
-                onClick={() => handleSuggestionClick(place_id)}>
-                {description}
-              </li>
-            );
-          })}
-        </ul>
-      )}
+    <div className="">
+      <h2 className='text-2xl font-bold'>Yola Davam</h2>
+      <div className="autocomplete-container" >
+        <Input
+          value={inputValue}
+          onInput={(event: FormEvent<HTMLInputElement>) => onInputChange(event)}
+          placeholder="Search for a place" />
+
+
+        {predictionResults.length > 0 && (
+          <ul className="custom-list">
+            {predictionResults.map(({ place_id, description }) => {
+              return (
+                <li
+                  key={place_id}
+                  className="custom-list-item"
+                  onClick={() => handleSuggestionClick(place_id)}>
+                  {description}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

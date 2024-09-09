@@ -5,6 +5,7 @@ import { CustomMapControl } from './map-control';
 import MapHandler from './map-handler';
 import styles from './page.module.scss';
 import { Button } from 'antd';
+import Header from '../components/Header/Header';
 
 const API_KEY = 'AIzaSyD9JBkYu-uZAPoojnbSD_6ZNUm_SGkmpO4'
 
@@ -25,6 +26,7 @@ export const RidePage = () => {
 
     return (
         <div className={styles.app}>
+            <Header />
             <APIProvider apiKey={API_KEY}>
                 <Map
                     defaultZoom={3}
@@ -32,16 +34,16 @@ export const RidePage = () => {
                     gestureHandling={'greedy'}
                     disableDefaultUI={true}
                 />
-
+                
                 <CustomMapControl
-                    controlPosition={ControlPosition.TOP}
+                    controlPosition={ControlPosition.TOP_LEFT}
                     selectedAutocompleteMode={selectedAutocompleteMode}
                     onPlaceSelect={setSelectedPlace}
                 />
 
                 <MapHandler place={selectedPlace} />
             </APIProvider>
-            <div className={styles.sideDiv}>
+            {/* <div className={styles.sideDiv}>
                 <h2 className='text-2xl font-bold'>Yola Davam</h2>
                 <CustomMapControl
                     controlPosition={ControlPosition.TOP}
@@ -49,7 +51,7 @@ export const RidePage = () => {
                     onPlaceSelect={setSelectedPlace}
                 />
                 <Button type="primary">Ride Button</Button>
-            </div>
+            </div> */}
         </div>
     );
 };
