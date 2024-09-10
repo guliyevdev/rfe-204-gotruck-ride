@@ -52,7 +52,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
         return;
       }
 
-      const request = { input: inputValue, sessionToken };
+      const request = { input: inputValue, sessionToken,componentRestrictions: { country: 'AZ' }  };
       const response = await autocompleteService.getPlacePredictions(request);
       if (direction === 'inception') setPredictionResults(response.predictions);
       else setPredictionDestinationResults(response.predictions);
@@ -81,8 +81,6 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   const handleSuggestionClick = useCallback(
     (placeId: string) => {
       if (!places) return;
-      console.log(placeId);
-      console.log(inceptionValue);
       const detailRequestOptions = {
         placeId,
         fields: ['geometry', 'name', 'formatted_address'],
