@@ -28,6 +28,9 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   const [predictionResults, setPredictionResults] = useState<
     Array<google.maps.places.AutocompletePrediction>
   >([]);
+  const [predictionDestinationResults, setPredictionDestinationResults] = useState<
+    Array<google.maps.places.AutocompletePrediction>
+  >([]);
 
   const [inceptionValue, setInceptionValue] = useState<string>('');
   const [destinationValue, setDestinationValue] = useState<string>('');
@@ -52,7 +55,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   }, [map, places]);
 
   const fetchPredictions = useCallback(
-    async (inputValue: string) => {
+    async (inputValue: string,direction: string) => {
       if (!autocompleteService || !inputValue) {
         setPredictionResults([]);
         return;
@@ -60,7 +63,8 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
 
       const request = { input: inputValue, sessionToken };
       const response = await autocompleteService.getPlacePredictions(request);
-
+      if(direction === "inception") setPredictionResults(response.predictions);
+      else setPredictionDestinationResults(response.predictions);
       setPredictionResults(response.predictions);
     },
     [autocompleteService, sessionToken]
@@ -71,10 +75,20 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
       const value = (event.target as HTMLInputElement)?.value;
 
       setInceptionValue(value);
-      fetchPredictions(value);
+      fetchPredictions(value,"inception");
     },
     [fetchPredictions]
   );
+  const onDestinationInputChange = useCallback(
+    (event: FormEvent<HTMLInputElement>) => {
+      const value = (event.target as HTMLInputElement)?.value;
+
+      setDestinationValue(value);
+      fetchPredictions(value,"destination");
+    },
+    [fetchPredictions]
+  );
+
 
   const handleSuggestionClick = useCallback(
     (placeId: string) => {
@@ -130,12 +144,12 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
       <div className="autocomplete-container mt-2" >
         <Input
           value={destinationValue}
-          onInput={(event: FormEvent<HTMLInputElement>) => onInputChange(event)}
+          onInput={(event: FormEvent<HTMLInputElement>) => onDestinationInputChange(event)}
           placeholder="Search for a place" />
 
-        {/* {predictionResults.length > 0 && (
+        {predictionDestinationResults.length > 0 && (
           <ul className="custom-list">
-            {predictionResults.map(({ place_id, description }) => {
+            {predictionDestinationResults.map(({ place_id, description }) => {
               return (
                 <li
                   key={place_id}
@@ -146,7 +160,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
               );
             })}
           </ul>
-        )} */}
+        )}
       </div>
     </div>
   );
