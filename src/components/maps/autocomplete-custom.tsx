@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, FormEvent } from 'react';
+import { useEffect, useState, useCallback, FormEvent, useRef } from 'react';
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { Input } from 'antd';
 import styles from './map.module.scss';
@@ -29,7 +29,14 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
     Array<google.maps.places.AutocompletePrediction>
   >([]);
 
-  const [inputValue, setInputValue] = useState<string>('');
+  const [inceptionValue, setInceptionValue] = useState<string>('');
+  const [destinationValue, setDestinationValue] = useState<string>('');
+  const autocompleteRef = useRef<HTMLDivElement>(null);
+  const handleClickOutside = (event: MouseEvent) => {
+    if (autocompleteRef.current && !autocompleteRef.current.contains(event.target as Node)) {
+      setPredictionResults([]); // Kənara kliklənəndə nəticələri təmizləyir
+    }
+  };
 
   useEffect(() => {
     if (!places || !map) return;
@@ -37,8 +44,11 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
     setAutocompleteService(new places.AutocompleteService());
     setPlacesService(new places.PlacesService(map));
     setSessionToken(new places.AutocompleteSessionToken());
-
-    return () => setAutocompleteService(null);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      setAutocompleteService(null)
+    }
   }, [map, places]);
 
   const fetchPredictions = useCallback(
@@ -60,7 +70,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
     (event: FormEvent<HTMLInputElement>) => {
       const value = (event.target as HTMLInputElement)?.value;
 
-      setInputValue(value);
+      setInceptionValue(value);
       fetchPredictions(value);
     },
     [fetchPredictions]
@@ -81,7 +91,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
       ) => {
         onPlaceSelect(placeDetails);
         setPredictionResults([]);
-        setInputValue(placeDetails?.formatted_address ?? '');
+        setInceptionValue(placeDetails?.formatted_address ?? '');
         setSessionToken(new places.AutocompleteSessionToken());
       };
 
@@ -93,14 +103,37 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   return (
     <div className={styles.sideDiv}>
       <h2 className='text-2xl font-bold'>Yola Davam</h2>
-      <div className="autocomplete-container" >
+      <div ref={autocompleteRef} className="autocomplete-container mt-3 relative">
         <Input
-          value={inputValue}
+          value={inceptionValue}
+          onInput={(event: FormEvent<HTMLInputElement>) => onInputChange(event)}
+          placeholder="Search for a place"
+          className="w-full"
+        />
+
+        {predictionResults.length > 0 && (
+          <ul className="custom-list absolute top-full left-0 z-10 bg-white w-full border border-gray-300">
+            {predictionResults.map(({ place_id, description }) => {
+              return (
+                <li
+                  key={place_id}
+                  className="custom-list-item py-2 px-4 text-base cursor-pointer hover:bg-gray-100"
+                  onClick={() => handleSuggestionClick(place_id)}
+                >
+                  {description}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+      <div className="autocomplete-container mt-2" >
+        <Input
+          value={destinationValue}
           onInput={(event: FormEvent<HTMLInputElement>) => onInputChange(event)}
           placeholder="Search for a place" />
 
-
-        {predictionResults.length > 0 && (
+        {/* {predictionResults.length > 0 && (
           <ul className="custom-list">
             {predictionResults.map(({ place_id, description }) => {
               return (
@@ -113,7 +146,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
               );
             })}
           </ul>
-        )}
+        )} */}
       </div>
     </div>
   );
