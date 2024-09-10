@@ -81,7 +81,8 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   const handleSuggestionClick = useCallback(
     (placeId: string) => {
       if (!places) return;
-
+      console.log(placeId);
+      console.log(inceptionValue);
       const detailRequestOptions = {
         placeId,
         fields: ['geometry', 'name', 'formatted_address'],
@@ -92,6 +93,27 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
         onPlaceSelect(placeDetails);
         setPredictionResults([]);
         setInceptionValue(placeDetails?.formatted_address ?? '');
+        setSessionToken(new places.AutocompleteSessionToken());
+      };
+
+      placesService?.getDetails(detailRequestOptions, detailsRequestCallback);
+    },
+    [onPlaceSelect, places, placesService, sessionToken]
+  );
+  const handleSuggestionDestinationClick = useCallback(
+    (placeId: string) => {
+      if (!places) return;
+
+      const detailRequestOptions = {
+        placeId,
+        fields: ['geometry', 'name', 'formatted_address'],
+        sessionToken,
+      };
+
+      const detailsRequestCallback = (placeDetails: google.maps.places.PlaceResult | null) => {
+        onPlaceSelect(placeDetails);
+        setPredictionDestinationResults([]);
+        setDestinationValue(placeDetails?.formatted_address ?? '');
         setSessionToken(new places.AutocompleteSessionToken());
       };
 
@@ -146,7 +168,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
                 <li
                   key={place_id}
                   className="custom-list-item py-2 px-4 text-base cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleSuggestionClick(place_id)}
+                  onClick={() => handleSuggestionDestinationClick(place_id)}
                 >
                   {description}
                 </li>
