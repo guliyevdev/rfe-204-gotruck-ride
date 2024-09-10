@@ -58,6 +58,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
     async (inputValue: string,direction: string) => {
       if (!autocompleteService || !inputValue) {
         setPredictionResults([]);
+        setPredictionDestinationResults([]);
         return;
       }
 
@@ -65,7 +66,6 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
       const response = await autocompleteService.getPlacePredictions(request);
       if(direction === "inception") setPredictionResults(response.predictions);
       else setPredictionDestinationResults(response.predictions);
-      setPredictionResults(response.predictions);
     },
     [autocompleteService, sessionToken]
   );
