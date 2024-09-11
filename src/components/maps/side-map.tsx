@@ -11,10 +11,9 @@ interface Props {
 const SideMap = ({ onPlaceSelect }: Props) => {
     return (
         <div className='ml-5 autocomplete-control'>
-            <div className={styles.sideDiv}>
+            <div className={styles.mapSide}>
                 <div className={styles.cordinatesForm}>
                     <AutoCompleteCustom onPlaceSelect={onPlaceSelect} />
-
                     <Button type="primary" size='large'>Davam et</Button>
                 </div>
             </div>
