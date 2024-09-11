@@ -26,8 +26,8 @@ export const MapDirections = () => {
   
       directionsService
         .route({
-          origin: { placeId: 'ChIJI2QkYb3bOEAR4wqPRBAvllo' },
-          destination: { placeId: 'ChIJTxDR0f2VN0ARjSLJoAXOck0' },
+          origin: { placeId: 'ChIJ-Rwh1mt9MEARa2zlel5rPzQ' },
+          destination: { placeId: 'ChIJNb4FvK0lQUARoqAphNHROv0' },
           travelMode: google.maps.TravelMode.DRIVING,
           provideRouteAlternatives: true
         })

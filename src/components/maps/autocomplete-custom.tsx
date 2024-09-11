@@ -81,6 +81,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   const handleSuggestionClick = useCallback(
     (placeId: string) => {
       if (!places) return;
+      console.log('placeId: ' + placeId);
       const detailRequestOptions = {
         placeId,
         fields: ['geometry', 'name', 'formatted_address'],
