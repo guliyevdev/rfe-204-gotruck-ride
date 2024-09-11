@@ -1,7 +1,10 @@
 import { useEffect, useState, useCallback, FormEvent, useRef } from 'react';
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
-import { Input } from 'antd';
+import { Button, Input } from 'antd';
 import styles from './map.module.scss';
+import { updateOrigin } from '@/features/mapDirectionsSlice';
+import { useDispatch } from 'react-redux';
+import { updateDestination } from '@/features/mapDirectionsSlice';
 
 interface Props {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
@@ -10,6 +13,7 @@ interface Props {
 export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   const map = useMap();
   const places = useMapsLibrary('places');
+  const dispatch = useDispatch(); // Get the dispatch function
 
   const [sessionToken, setSessionToken] = useState<google.maps.places.AutocompleteSessionToken>();
   const [autocompleteService, setAutocompleteService] = useState<google.maps.places.AutocompleteService | null>(null);
@@ -21,7 +25,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   const [inceptionValue, setInceptionValue] = useState<string>('');
   const [destinationValue, setDestinationValue] = useState<string>('');
 
-  const autocompleteRefs = useRef<(HTMLDivElement | null)[]>([]); 
+  const autocompleteRefs = useRef<(HTMLDivElement | null)[]>([]);
   const handleClickOutside = (event: MouseEvent) => {
     if (
       autocompleteRefs.current.every(ref => ref && !ref.contains(event.target as Node))
@@ -52,7 +56,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
         return;
       }
 
-      const request = { input: inputValue, sessionToken,componentRestrictions: { country: 'AZ' }  };
+      const request = { input: inputValue, sessionToken, componentRestrictions: { country: 'AZ' } };
       const response = await autocompleteService.getPlacePredictions(request);
       if (direction === 'inception') setPredictionResults(response.predictions);
       else setPredictionDestinationResults(response.predictions);
@@ -81,6 +85,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   const handleSuggestionClick = useCallback(
     (placeId: string) => {
       if (!places) return;
+      dispatch(updateOrigin(placeId));
       console.log('placeId: ' + placeId);
       const detailRequestOptions = {
         placeId,
@@ -97,12 +102,13 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
 
       placesService?.getDetails(detailRequestOptions, detailsRequestCallback);
     },
-    [onPlaceSelect, places, placesService, sessionToken]
+    [onPlaceSelect, places, placesService, sessionToken, dispatch]
   );
+
   const handleSuggestionDestinationClick = useCallback(
     (placeId: string) => {
       if (!places) return;
-
+      dispatch(updateDestination(placeId));
       const detailRequestOptions = {
         placeId,
         fields: ['geometry', 'name', 'formatted_address'],
@@ -122,60 +128,65 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   );
 
   const setAutocompleteRef = useCallback((element: HTMLDivElement | null, index: number) => {
-    autocompleteRefs.current[index] = element; 
+    autocompleteRefs.current[index] = element;
   }, []);
 
   return (
     <div className={styles.sideDiv}>
-      <h2 className='text-2xl font-bold'>Yola Davam</h2>
-      <div ref={el => setAutocompleteRef(el, 0)} className="autocomplete-container mt-3 relative">
-        <Input
-          value={inceptionValue}
-          onInput={(event: FormEvent<HTMLInputElement>) => onInputChange(event)}
-          placeholder="Search for a place"
-          className="w-full"
-        />
+      <div>
+        <h2 className='text-2xl font-bold'>Yola Davam</h2>
+        <div ref={el => setAutocompleteRef(el, 0)} className="autocomplete-container mt-3 relative">
+          <Input
+            value={inceptionValue}
+            onInput={(event: FormEvent<HTMLInputElement>) => onInputChange(event)}
+            placeholder="Search for a place"
+            className="w-full"
+            size='large'
+          />
 
-        {predictionResults.length > 0 && (
-          <ul className="custom-list absolute top-full left-0 z-10 bg-white w-full border border-gray-300">
-            {predictionResults.map(({ place_id, description }) => {
-              return (
-                <li
-                  key={place_id}
-                  className="custom-list-item py-2 px-4 text-base cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleSuggestionClick(place_id)}
-                >
-                  {description}
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </div>
-      <div ref={el => setAutocompleteRef(el, 1)} className="autocomplete-container mt-2 relative">
-        <Input
-          value={destinationValue}
-          onInput={(event: FormEvent<HTMLInputElement>) => onDestinationInputChange(event)}
-          placeholder="Search for a place"
-          className="w-full"
-        />
+          {predictionResults.length > 0 && (
+            <ul className="custom-list absolute top-full left-0 z-10 bg-white w-full border border-gray-300">
+              {predictionResults.map(({ place_id, description }) => {
+                return (
+                  <li
+                    key={place_id}
+                    className="custom-list-item py-2 px-4 text-base cursor-pointer hover:bg-gray-100"
+                    onClick={() => handleSuggestionClick(place_id)}
+                  >
+                    {description}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
+        <div ref={el => setAutocompleteRef(el, 1)} className="autocomplete-container mt-2 relative">
+          <Input
+            value={destinationValue}
+            onInput={(event: FormEvent<HTMLInputElement>) => onDestinationInputChange(event)}
+            placeholder="Search for a place"
+            size='large'
+            className="w-full"
+          />
 
-        {predictionDestinationResults.length > 0 && (
-          <ul className="custom-list absolute top-full left-0 z-10 bg-white w-full border border-gray-300">
-            {predictionDestinationResults.map(({ place_id, description }) => {
-              return (
-                <li
-                  key={place_id}
-                  className="custom-list-item py-2 px-4 text-base cursor-pointer hover:bg-gray-100"
-                  onClick={() => handleSuggestionDestinationClick(place_id)}
-                >
-                  {description}
-                </li>
-              );
-            })}
-          </ul>
-        )}
+          {predictionDestinationResults.length > 0 && (
+            <ul className="custom-list absolute top-full left-0 z-10 bg-white w-full border border-gray-300">
+              {predictionDestinationResults.map(({ place_id, description }) => {
+                return (
+                  <li
+                    key={place_id}
+                    className="custom-list-item py-2 px-4 text-base cursor-pointer hover:bg-gray-100"
+                    onClick={() => handleSuggestionDestinationClick(place_id)}
+                  >
+                    {description}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
       </div>
+      <Button type="primary" size='large'>Davam et</Button>
     </div>
   );
 };

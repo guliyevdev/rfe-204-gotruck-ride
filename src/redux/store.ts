@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { mapDestinationSlice } from "@/features/mapDestintionSlice";
+import mapDirectionsSlice from "@/features/mapDirectionsSlice";
 
 
 export const store = configureStore({
     reducer: {
         // Add the maps reducer
-        mapDestination: mapDestinationSlice
+        MapDirections: mapDirectionsSlice
     }
     });

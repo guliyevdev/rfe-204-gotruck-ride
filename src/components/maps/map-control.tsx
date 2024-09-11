@@ -19,7 +19,7 @@ export const CustomMapControl = ({
 }: CustomAutocompleteControlProps) => {
   return (
     <MapControl position={controlPosition}>
-      <div className="mt-3 ml-3 autocomplete-control">
+      <div className="ml-5 autocomplete-control">
           <AutocompleteCustom onPlaceSelect={onPlaceSelect} />
       </div>
     </MapControl>
