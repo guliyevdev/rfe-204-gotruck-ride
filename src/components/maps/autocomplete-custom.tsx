@@ -10,7 +10,7 @@ interface Props {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
 }
 
-export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
+export const AutoCompleteCustom = ({ onPlaceSelect }: Props) => {
   const map = useMap();
   const places = useMapsLibrary('places');
   const dispatch = useDispatch(); // Get the dispatch function
@@ -132,62 +132,57 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
   }, []);
 
   return (
-    <div className={styles.sideDiv}>
-      <div className={styles.cordinatesForm}>
-      <div>
-        <h2 className='text-2xl font-bold'>Yola Davam</h2>
-        <div ref={el => setAutocompleteRef(el, 0)} className="autocomplete-container mt-3 relative">
-          <Input
-            value={inceptionValue}
-            onInput={(event: FormEvent<HTMLInputElement>) => onInputChange(event)}
-            placeholder="Search for a place"
-            className="w-full"
-            size='large'
-          />
+    <div>
+      <h2 className='text-2xl font-bold'>Yola Davam</h2>
+      <div ref={el => setAutocompleteRef(el, 0)} className="autocomplete-container mt-3 relative">
+        <Input
+          value={inceptionValue}
+          onInput={(event: FormEvent<HTMLInputElement>) => onInputChange(event)}
+          placeholder="Search for a place"
+          className="w-full"
+          size='large'
+        />
 
-          {predictionResults.length > 0 && (
-            <ul className="custom-list absolute top-full left-0 z-10 bg-white w-full border border-gray-300">
-              {predictionResults.map(({ place_id, description }) => {
-                return (
-                  <li
-                    key={place_id}
-                    className="custom-list-item py-2 px-4 text-base cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSuggestionClick(place_id)}
-                  >
-                    {description}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </div>
-        <div ref={el => setAutocompleteRef(el, 1)} className="autocomplete-container mt-2 relative">
-          <Input
-            value={destinationValue}
-            onInput={(event: FormEvent<HTMLInputElement>) => onDestinationInputChange(event)}
-            placeholder="Search for a place"
-            size='large'
-            className="w-full"
-          />
-
-          {predictionDestinationResults.length > 0 && (
-            <ul className="custom-list absolute top-full left-0 z-10 bg-white w-full border border-gray-300">
-              {predictionDestinationResults.map(({ place_id, description }) => {
-                return (
-                  <li
-                    key={place_id}
-                    className="custom-list-item py-2 px-4 text-base cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSuggestionDestinationClick(place_id)}
-                  >
-                    {description}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </div>
+        {predictionResults.length > 0 && (
+          <ul className="custom-list absolute top-full left-0 z-10 bg-white w-full border border-gray-300">
+            {predictionResults.map(({ place_id, description }) => {
+              return (
+                <li
+                  key={place_id}
+                  className="custom-list-item py-2 px-4 text-base cursor-pointer hover:bg-gray-100"
+                  onClick={() => handleSuggestionClick(place_id)}
+                >
+                  {description}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
-      <Button type="primary" size='large'>Davam et</Button>
+      <div ref={el => setAutocompleteRef(el, 1)} className="autocomplete-container mt-2 relative">
+        <Input
+          value={destinationValue}
+          onInput={(event: FormEvent<HTMLInputElement>) => onDestinationInputChange(event)}
+          placeholder="Search for a place"
+          size='large'
+          className="w-full"
+        />
+
+        {predictionDestinationResults.length > 0 && (
+          <ul className="custom-list absolute top-full left-0 z-10 bg-white w-full border border-gray-300">
+            {predictionDestinationResults.map(({ place_id, description }) => {
+              return (
+                <li
+                  key={place_id}
+                  className="custom-list-item py-2 px-4 text-base cursor-pointer hover:bg-gray-100"
+                  onClick={() => handleSuggestionDestinationClick(place_id)}
+                >
+                  {description}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </div>
   );
