@@ -133,6 +133,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
 
   return (
     <div className={styles.sideDiv}>
+      <div className={styles.cordinatesForm}>
       <div>
         <h2 className='text-2xl font-bold'>Yola Davam</h2>
         <div ref={el => setAutocompleteRef(el, 0)} className="autocomplete-container mt-3 relative">
@@ -187,6 +188,7 @@ export const AutocompleteCustom = ({ onPlaceSelect }: Props) => {
         </div>
       </div>
       <Button type="primary" size='large'>Davam et</Button>
+      </div>
     </div>
   );
 };
