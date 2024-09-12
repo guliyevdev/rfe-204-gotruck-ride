@@ -1,6 +1,5 @@
 import {ControlPosition, MapControl} from '@vis.gl/react-google-maps';
 
-import {AutoCompleteCustom} from '@/components/maps/autoComplete-custom';
 import SideMap from './side-map';
 
 type AutocompleteMode= {id: string; label: string};
@@ -17,8 +16,8 @@ export const CustomMapControl = ({
   onPlaceSelect
 }: CustomAutocompleteControlProps) => {
   return (
-    <MapControl position={controlPosition}>
+    // <MapControl >
       <SideMap onPlaceSelect={onPlaceSelect} />
-    </MapControl>
+    // </MapControl>
   );
 };

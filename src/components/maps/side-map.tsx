@@ -1,6 +1,8 @@
 import { Button } from 'antd';
-import { AutoCompleteCustom } from './autocomplete-custom';
+import { AutoCompleteCustom } from './auto-complete';
 import styles from './map.module.scss';
+import TruckSelect from './truck-select';
+import { useState } from 'react';
 
 interface Props {
     onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
@@ -9,13 +11,15 @@ interface Props {
 
 
 const SideMap = ({ onPlaceSelect }: Props) => {
+    const [step, setStep] = useState(1);
+    const nextStep = () => {
+        setStep(step + 1);
+      };
     return (
-        <div className='ml-5 autocomplete-control'>
+        <div className='autocomplete-control'>
             <div className={styles.mapSide}>
-                <div className={styles.cordinatesForm}>
-                    <AutoCompleteCustom onPlaceSelect={onPlaceSelect} />
-                    <Button type="primary" size='large'>Davam et</Button>
-                </div>
+                {step === 1 && <AutoCompleteCustom onPlaceSelect={onPlaceSelect} onNext={nextStep} />}
+                {step === 2 && <TruckSelect />}
             </div>
         </div>
     );
