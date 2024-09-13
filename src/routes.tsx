@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import MapPage from "./pages/map";
 import { RidePage } from "./pages/ride/ride";
 
 export const routes = createBrowserRouter([

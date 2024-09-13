@@ -1,4 +1,4 @@
-import {ControlPosition, MapControl} from '@vis.gl/react-google-maps';
+import {ControlPosition} from '@vis.gl/react-google-maps';
 
 import SideMap from './side-map';
 

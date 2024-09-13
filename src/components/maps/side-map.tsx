@@ -1,4 +1,3 @@
-import { Button } from 'antd';
 import { AutoCompleteCustom } from './auto-complete';
 import styles from './map.module.scss';
 import TruckSelect from './truck-select';
