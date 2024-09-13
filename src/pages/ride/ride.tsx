@@ -4,7 +4,7 @@ import { APIProvider, ControlPosition, Map } from '@vis.gl/react-google-maps';
 import { CustomMapControl } from '@/components/maps/map-control';
 import MapHandler from '@/components/maps/map-handler';
 import styles from './page.module.scss';
-import Header from '../components/Header/Header';
+import Header from '../../components/Header/Header';
 import { MapDirections } from '@/components/maps/map-directions';
 import "./ride.scss";
 import {
@@ -39,29 +39,30 @@ export const RidePage = () => {
 
     return (
         <div className={styles.app}>
-            <Header />
+            {/* <Header /> */}
             <div className={styles.orderArea}>
                 <APIProvider apiKey={API_KEY}>
-                    <div style={{ flex: 0.5, padding: '20px', backgroundColor: 'white' }}>
-                        <CustomMapControl
-                            controlPosition={ControlPosition.LEFT_CENTER}
-                            selectedAutocompleteMode={selectedAutocompleteMode}
-                            onPlaceSelect={setSelectedPlace}
-                        />
+                    <div className={styles.container}>
+                        <div className={styles.leftPane} >
+                            <CustomMapControl
+                                controlPosition={ControlPosition.LEFT_CENTER}
+                                selectedAutocompleteMode={selectedAutocompleteMode}
+                                onPlaceSelect={setSelectedPlace}
+                            />
+                        </div>
+                        <div className={styles.rightPane}>
+                            <Map
+                                mapId={MAP_IDS[2]}
+                                defaultZoom={8}
+                                defaultCenter={{ lat: 40.3, lng: 47 }}
+                                style={{ height: '100%', border: '1px solid #0000005c' }}
+                                gestureHandling={'greedy'}
+                                disableDefaultUI={true}
+                            >
+                                <MapDirections />
+                            </Map>
+                        </div>
                     </div>
-                    <div style={{ flex: 0.5, padding: '50px'}}>
-                        <Map
-                            mapId={MAP_IDS[2]}
-                            defaultZoom={8}
-                            defaultCenter={{ lat: 40.3, lng: 47 }}
-                            style={{ height: '100%' }}
-                            gestureHandling={'greedy'}
-                            disableDefaultUI={true}
-                        >
-                            <MapDirections />
-                        </Map>
-                    </div>
-
                 </APIProvider>
             </div>
         </div>

@@ -134,12 +134,13 @@ export const AutoCompleteCustom = ({ onPlaceSelect,onNext }: Props) => {
 
     <div className={styles.mapSideIn}>
       <div>
-        <h2 className='text-2xl font-bold'>Yola Davam</h2>
+        <h2 className='text-3xl font-bold'>Başlanğıc və bitiş nöqtələrini seçin</h2>
         <div ref={el => setAutocompleteRef(el, 0)} className="autocomplete-container mt-3 relative">
           <Input
             value={inceptionValue}
+            variant="filled"
             onInput={(event: FormEvent<HTMLInputElement>) => onInputChange(event)}
-            placeholder="Search for a place"
+            placeholder="Yük götrülmə yerini daxil edin"
             className="w-full"
             size='large'
           />
@@ -160,11 +161,12 @@ export const AutoCompleteCustom = ({ onPlaceSelect,onNext }: Props) => {
             </ul>
           )}
         </div>
-        <div ref={el => setAutocompleteRef(el, 1)} className="autocomplete-container mt-2 relative">
+        <div ref={el => setAutocompleteRef(el, 1)} className="autocomplete-container mt-3 relative">
           <Input
             value={destinationValue}
+            variant='filled'
             onInput={(event: FormEvent<HTMLInputElement>) => onDestinationInputChange(event)}
-            placeholder="Search for a place"
+            placeholder="Hara gediləcək"
             size='large'
             className="w-full"
           />
@@ -186,7 +188,7 @@ export const AutoCompleteCustom = ({ onPlaceSelect,onNext }: Props) => {
           )}
         </div>
       </div>
-      <Button onClick={onNext} type="primary" size='large'>Davam et</Button>
+      <Button className='mt-4 p-5' style={{ backgroundColor: 'black', color: 'white' }} onClick={onNext} type="primary" size='large'>Davam et</Button>
     </div>
   );
 };

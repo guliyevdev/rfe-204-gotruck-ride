@@ -1,12 +1,15 @@
 
   
   .mapSide {
-    // width: 430px;
     // height: 92vh;
     // background-color:#E5FCF5;
     // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     // border-radius: 8px;
+    padding: 0 13%;
     z-index: 10;
+    @media (max-width: 768px) {
+      padding: 5% 0;
+    }
   }
 
   .mapSideIn {
