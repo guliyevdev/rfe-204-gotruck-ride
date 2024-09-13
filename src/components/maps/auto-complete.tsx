@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback, FormEvent, useRef } from 'react';
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { Button, Input } from 'antd';
 import styles from './map.module.scss';
-import { updateOrigin, updateDestination } from '@/features/mapDirectionsSlice';
+import { updateOrigin, updateDestination } from '../../features/mapDirectionsSlice';
 import { useDispatch } from 'react-redux';
 
 interface Props {

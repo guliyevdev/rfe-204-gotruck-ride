@@ -14,7 +14,7 @@ export const MapDirections = () => {
     useState<google.maps.DirectionsRenderer | null>(null);
   
   const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
-  const [routeIndex, setRouteIndex] = useState(0);
+  const [routeIndex] = useState(0);
   const selected = routes[routeIndex];
   const leg = selected?.legs[0];
 

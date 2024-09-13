@@ -11,8 +11,6 @@ type CustomAutocompleteControlProps = {
 };
 
 export const CustomMapControl = ({
-  controlPosition,
-  selectedAutocompleteMode,
   onPlaceSelect
 }: CustomAutocompleteControlProps) => {
   return (

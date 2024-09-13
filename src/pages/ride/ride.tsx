@@ -1,11 +1,11 @@
 import {  useState } from 'react';
 import { APIProvider, ControlPosition, Map } from '@vis.gl/react-google-maps';
 
-import { CustomMapControl } from '@/components/maps/map-control';
-import MapHandler from '@/components/maps/map-handler';
+import { CustomMapControl } from '../../components/maps/map-control';
+import MapHandler from '../../components/maps/map-handler';
 import styles from './page.module.scss';
 // import Header from '../../components/Header/Header';
-import { MapDirections } from '@/components/maps/map-directions';
+import { MapDirections } from '../../components/maps/map-directions';
 import "./ride.scss";
 
 const API_KEY = 'AIzaSyD9JBkYu-uZAPoojnbSD_6ZNUm_SGkmpO4';
@@ -25,7 +25,7 @@ const autocompleteModes: Array<AutocompleteMode> = [
 ];
 
 export const RidePage = () => {
-    const [selectedAutocompleteMode, setSelectedAutocompleteMode] = useState<AutocompleteMode>(autocompleteModes[0]);
+    const [selectedAutocompleteMode] = useState<AutocompleteMode>(autocompleteModes[0]);
     const [selectedPlace, setSelectedPlace] = useState<google.maps.places.PlaceResult | null>(null);
 
     return (
