@@ -25,10 +25,10 @@ const TruckSelect: React.FC<TruckSelectProps> = () => {
 
                 </div>
                 <div className='truckList mt-5'>
-                    <Card style={{ width: 400 }}>
+                    <Card style={{ width: "100%" }}>
                         <Row justify="space-between" align="middle">
                             <Col>
-                            <img className="w-20" src={TruckImage} />
+                                <img className="w-20" src={TruckImage} />
                             </Col>
                             <Col>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -44,7 +44,8 @@ const TruckSelect: React.FC<TruckSelectProps> = () => {
                     </Card>
                 </div>
             </div>
-            <Button type="primary" size='large'>Davam et</Button>
+
+            <Button className='mt-4 p-5' style={{ backgroundColor: 'black', color: 'white' }} type="primary" size='large'>Davam et</Button>
         </div>
     );
 };
