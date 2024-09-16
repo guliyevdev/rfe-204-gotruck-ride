@@ -18,27 +18,26 @@ const TruckSelect: React.FC<TruckSelectProps> = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     useEffect(() => {
-        apiClient.get('/category/all') 
-          .then(response => {
-            setData(response.data);
-            setLoading(false);
-          })
-          .catch(error => {
-            setError(error);
-            setLoading(false);
-          });
-      }, []);
-      if (loading) return <p>Loading...</p>;
-      if (error) return <p>Error: {error.message}</p>;
+        apiClient.get('/category/all')
+            .then(response => {
+                console.log(response.data);
+                setData(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                setError(error);
+                setLoading(false);
+            });
+    }, []);
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
     return (
         <div className={styles.mapSideIn}>
             <div>
                 <div className="">
                     <h2 className='text-2xl font-bold'>Qiymət təxmini</h2>
                 </div>
-                <div>
-
-                </div>
+                {data && data.map((item, index) => (
                 <div className='truckList mt-5'>
                     <Card style={{ width: "100%" }}>
                         <Row justify="space-between" align="middle">
@@ -47,9 +46,9 @@ const TruckSelect: React.FC<TruckSelectProps> = () => {
                             </Col>
                             <Col>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <Text className='text-lg font-bold'>Tentli TIR</Text>
-                                    <Text className='text-lg font-bold'><FontAwesomeIcon icon={faWeightScale} size='lg' /> 26 ton</Text>
-                                    <Text className='text-lg font-bold'><FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} size='lg' /> 96 kub</Text>
+                                    <Text className='text-lg font-bold'>{item.name}</Text>
+                                    <Text className='text-lg font-bold'><FontAwesomeIcon icon={faWeightScale} size='lg' /> {item.weight/1000} ton</Text>
+                                    <Text className='text-lg font-bold'><FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} size='lg' /> {item.capacity} kub</Text>
                                 </div>
                             </Col>
                             <Col>
@@ -58,8 +57,8 @@ const TruckSelect: React.FC<TruckSelectProps> = () => {
                         </Row>
                     </Card>
                 </div>
+                 ))}
             </div>
-
             <Button className='mt-4 p-5' style={{ backgroundColor: 'black', color: 'white' }} type="primary" size='large'>Davam et</Button>
         </div>
     );
