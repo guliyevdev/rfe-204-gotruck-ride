@@ -1,10 +1,11 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '@/components/maps/map.module.scss';
 import { Button, Card, Col, Row, Typography } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faManatSign, faUpRightAndDownLeftFromCenter, faWeightScale } from '@fortawesome/free-solid-svg-icons';
 import TruckImage from "@/assets/image/trailer-truck.png"
+import apiClient from '../../utils/apiClient';
 
 interface TruckSelectProps {
     // Add any props you need here
@@ -13,8 +14,22 @@ const { Text } = Typography;
 
 
 const TruckSelect: React.FC<TruckSelectProps> = () => {
-    // Add your component logic here
-
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    useEffect(() => {
+        apiClient.get('/category/all') 
+          .then(response => {
+            setData(response.data);
+            setLoading(false);
+          })
+          .catch(error => {
+            setError(error);
+            setLoading(false);
+          });
+      }, []);
+      if (loading) return <p>Loading...</p>;
+      if (error) return <p>Error: {error.message}</p>;
     return (
         <div className={styles.mapSideIn}>
             <div>
