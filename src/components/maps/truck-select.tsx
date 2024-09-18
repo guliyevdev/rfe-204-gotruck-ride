@@ -10,13 +10,21 @@ import apiClient from '../../utils/apiClient';
 interface TruckSelectProps {
     // Add any props you need here
 }
+interface TruckData {
+    name: string;
+    weight: number;
+    capacity: number;
+}
+
 const { Text } = Typography;
 
 
 const TruckSelect: React.FC<TruckSelectProps> = () => {
-    const [data, setData] = useState(null);
+
+    
+    const [data, setData] = useState<TruckData[] | null>(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<any>(null);
     useEffect(() => {
         apiClient.get('/category/all')
             .then(response => {
@@ -37,7 +45,7 @@ const TruckSelect: React.FC<TruckSelectProps> = () => {
                 <div className="">
                     <h2 className='text-2xl font-bold'>Qiymət təxmini</h2>
                 </div>
-                {data && data.map((item, index) => (
+                {data && data.map((item) => (
                 <div className='truckList mt-5'>
                     <Card style={{ width: "100%" }}>
                         <Row justify="space-between" align="middle">
