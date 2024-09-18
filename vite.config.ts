@@ -13,13 +13,15 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+    host: true,
+    port: 4173,
       proxy: {
-        '/api': {
-          target: env.VITE_API_BASE_URL || 'http://34.91.193.37:4000/api/',
+        '/main': {
+          target: env.VITE_API_BASE_URL,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          rewrite: (path) => path.replace(/^\/main/, ''),
         },
       },
-    },
+    }
   };
 });
