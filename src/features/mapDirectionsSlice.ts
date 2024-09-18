@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   origin: null,
   destination: null,
+  distance: null,
 }
 
 export const mapDirectionsSlice = createSlice({
@@ -15,9 +16,12 @@ export const mapDirectionsSlice = createSlice({
     updateDestination: (state, action) => {
       state.destination = action.payload;
     },
+    updateDistance: (state, action) => {
+      state.distance = action.payload;
+    },
   },
 });
 
-export const { updateOrigin, updateDestination } = mapDirectionsSlice.actions;
+export const { updateOrigin, updateDestination,updateDistance } = mapDirectionsSlice.actions;
 
 export default mapDirectionsSlice.reducer;

@@ -1,11 +1,15 @@
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { updateDistance } from "../../features/mapDirectionsSlice";
+import { useDispatch } from 'react-redux';
+
 
 export const MapDirections = () => {
   const destination = useSelector((state: any) => state.MapDirections.destination);
   const origin = useSelector((state: any) => state.MapDirections.origin);
   const map = useMap();
+  const dispatch = useDispatch();
   const routesLibrary = useMapsLibrary('routes');
   
   const [directionsService, setDirectionsService] =
@@ -18,7 +22,6 @@ export const MapDirections = () => {
   const selected = routes[routeIndex];
   const leg = selected?.legs[0];
 
-  // Initialize directions service and renderer
   useEffect(() => {
     if (!routesLibrary || !map) return;
 
@@ -30,12 +33,11 @@ export const MapDirections = () => {
 
     return () => {
       if (renderer) {
-        renderer.setMap(null); // Cleanup renderer when component unmounts
+        renderer.setMap(null); 
       }
     };
   }, [routesLibrary, map]);
 
-  // Fetch new directions when origin or destination changes
   useEffect(() => {
     if (!directionsService || !directionsRenderer || !origin || !destination) return;
 
@@ -56,14 +58,15 @@ export const MapDirections = () => {
     
   }, [directionsService, directionsRenderer, origin, destination]);
 
-  // Update selected route when routeIndex changes
   useEffect(() => {
     if (!directionsRenderer || !routes.length) return;
     directionsRenderer.setRouteIndex(routeIndex);
   }, [routeIndex, directionsRenderer, routes]);
 
   if (!leg) return null;
-  console.log(leg.distance?.text);
+  console.log("Distance: ", leg.distance?.text);
+  console.log("Distance: ", leg.distance?.value);
+  dispatch(updateDistance(leg.distance?.value));
   return (
     <>
     </>

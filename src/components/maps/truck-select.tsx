@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faManatSign, faUpRightAndDownLeftFromCenter, faWeightScale } from '@fortawesome/free-solid-svg-icons';
 import TruckImage from "@/assets/image/trailer-truck.png"
 import apiClient from '../../utils/apiClient';
+import { useSelector } from "react-redux";
 
 interface TruckSelectProps {
     // Add any props you need here
@@ -20,20 +21,29 @@ const { Text } = Typography;
 
 const TruckSelect: React.FC<TruckSelectProps> = () => {
 
-
+    const distance = useSelector((state: any) => state.MapDirections.distance);
     const [data, setData] = useState<TruckData[] | null>(null);
+    const [pay, setPay] = useState<number | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<any>(null);
     useEffect(() => {
         apiClient.get('/category/all')
             .then(response => {
-                console.log(response.data);
                 setData(response.data);
                 setLoading(false);
             })
             .catch(error => {
                 setError(error);
                 setLoading(false);
+            });
+            apiClient.post('/price/calculate', {
+                distance: distance,
+                weight: 0,
+                truckCategoryId: 1
+            }).then(response => {
+                setPay(response.data);
+            }).catch(error => {
+                console.log(error);
             });
     }, []);
     if (loading) return <p>Loading...</p>;
@@ -59,7 +69,7 @@ const TruckSelect: React.FC<TruckSelectProps> = () => {
                                     </div>
                                 </Col>
                                 <Col>
-                                    <Text className='text-lg font-bold'><FontAwesomeIcon icon={faManatSign} /> 200 - 250 </Text>
+                                    <Text className='text-lg font-bold'><FontAwesomeIcon icon={faManatSign} /> { pay }</Text>
                                 </Col>
                             </Row>
                         </Card>
