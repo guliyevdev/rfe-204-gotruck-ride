@@ -1,4 +1,5 @@
 import { AutoCompleteCustom } from './auto-complete';
+import PhoneNumberInput from './enter-number';
 import styles from './map.module.scss';
 import TruckSelect from './truck-select';
 import { useState } from 'react';
@@ -18,7 +19,7 @@ const SideMap = ({ onPlaceSelect }: Props) => {
         <div className='autocomplete-control'>
             <div className={styles.mapSide}>
                 {step === 1 && <AutoCompleteCustom onPlaceSelect={onPlaceSelect} onNext={nextStep} />}
-                {step === 2 && <TruckSelect />}
+                {step === 2 && <PhoneNumberInput />}
             </div>
         </div>
     );
