@@ -19,7 +19,8 @@ const SideMap = ({ onPlaceSelect }: Props) => {
         <div className='autocomplete-control'>
             <div className={styles.mapSide}>
                 {step === 1 && <AutoCompleteCustom onPlaceSelect={onPlaceSelect} onNext={nextStep} />}
-                {step === 2 && <PhoneNumberInput />}
+                {step === 2 && <TruckSelect onNext={nextStep}/>}
+                {step === 3 && <PhoneNumberInput onNext={nextStep}/>}
             </div>
         </div>
     );

@@ -8,9 +8,6 @@ import TruckImage from "@/assets/image/trailer-truck.png"
 import apiClient from '../../utils/apiClient';
 import { useSelector } from "react-redux";
 
-interface TruckSelectProps {
-    // Add any props you need here
-}
 interface TruckData {
     name: string;
     weight: number;
@@ -18,8 +15,12 @@ interface TruckData {
 }
 const { Text } = Typography;
 
+interface Props {
+    onNext: () => void;
+  }
+  
 
-const TruckSelect: React.FC<TruckSelectProps> = () => {
+const TruckSelect = ({ onNext }: Props) => {
 
     const distance = useSelector((state: any) => state.MapDirections.distance);
     const [data, setData] = useState<TruckData[] | null>(null);
@@ -36,15 +37,15 @@ const TruckSelect: React.FC<TruckSelectProps> = () => {
                 setError(error);
                 setLoading(false);
             });
-            apiClient.post('/price/calculate', {
-                distance: distance,
-                weight: 0,
-                truckCategoryId: 1
-            }).then(response => {
-                setPay(response.data);
-            }).catch(error => {
-                console.log(error);
-            });
+        apiClient.post('/price/calculate', {
+            distance: distance,
+            weight: 0,
+            truckCategoryId: 1
+        }).then(response => {
+            setPay(response.data);
+        }).catch(error => {
+            console.log(error);
+        });
     }, []);
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
@@ -69,14 +70,14 @@ const TruckSelect: React.FC<TruckSelectProps> = () => {
                                     </div>
                                 </Col>
                                 <Col>
-                                    <Text className='text-lg font-bold'><FontAwesomeIcon icon={faManatSign} /> { pay }</Text>
+                                    <Text className='text-lg font-bold'><FontAwesomeIcon icon={faManatSign} /> {pay}</Text>
                                 </Col>
                             </Row>
                         </Card>
                     </div>
                 ))}
             </div>
-            <Button className='mt-4 p-5' style={{ backgroundColor: 'black', color: 'white' }} type="primary" size='large'>Davam et</Button>
+            <Button className='mt-4 p-5' style={{ backgroundColor: 'black', color: 'white' }} onClick={onNext}  type="primary" size='large'>Davam et</Button>
         </div>
     );
 };

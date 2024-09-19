@@ -3,8 +3,7 @@ import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import { Button, Input } from 'antd';
 import styles from './map.module.scss';
 import { updateOrigin, updateDestination } from '../../features/mapDirectionsSlice';
-import { useDispatch } from 'react-redux';
-
+import { useDispatch,useSelector } from 'react-redux';
 interface Props {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
   onNext: () => void;
@@ -14,7 +13,8 @@ export const AutoCompleteCustom = ({ onPlaceSelect,onNext }: Props) => {
   const map = useMap();
   const places = useMapsLibrary('places');
   const dispatch = useDispatch(); // Get the dispatch function
-
+  const origin = useSelector((state: string) => state.MapDirections.origin);
+  const destination = useSelector((state: string) => state.MapDirections.destination);
   const [sessionToken, setSessionToken] = useState<google.maps.places.AutocompleteSessionToken>();
   const [autocompleteService, setAutocompleteService] = useState<google.maps.places.AutocompleteService | null>(null);
   const [placesService, setPlacesService] = useState<google.maps.places.PlacesService | null>(null);
@@ -188,7 +188,7 @@ export const AutoCompleteCustom = ({ onPlaceSelect,onNext }: Props) => {
           )}
         </div>
       </div>
-      <Button className='mt-4 p-5' style={{ backgroundColor: 'black', color: 'white' }} onClick={onNext} type="primary" size='large'>Davam et</Button>
+      <Button disabled={origin == null && destination == null } className='mt-4 p-5' style={{ backgroundColor: 'black', color: 'white' }} onClick={onNext} type="primary" size='large'>Davam et</Button>
     </div>
   );
 };
