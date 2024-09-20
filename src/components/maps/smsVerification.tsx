@@ -11,7 +11,7 @@ interface Props {
 const SmsVerification = ({ onNext }: Props) => {
     const [otp, setOtp] = useState('');
 
-    const handleChange = (e) => {
+    const handleChange = (e:any) => {
         const value = e.target.value.replace(/\D/g, ''); 
         setOtp(value);
     };

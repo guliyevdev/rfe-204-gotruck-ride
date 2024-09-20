@@ -13,8 +13,8 @@ export const AutoCompleteCustom = ({ onPlaceSelect,onNext }: Props) => {
   const map = useMap();
   const places = useMapsLibrary('places');
   const dispatch = useDispatch(); // Get the dispatch function
-  const origin = useSelector((state: string) => state.MapDirections.origin);
-  const destination = useSelector((state: string) => state.MapDirections.destination);
+  const origin = useSelector((state: any) => state.MapDirections.origin);
+  const destination = useSelector((state: any) => state.MapDirections.destination);
   const [sessionToken, setSessionToken] = useState<google.maps.places.AutocompleteSessionToken>();
   const [autocompleteService, setAutocompleteService] = useState<google.maps.places.AutocompleteService | null>(null);
   const [placesService, setPlacesService] = useState<google.maps.places.PlacesService | null>(null);
