@@ -15,13 +15,13 @@ export default defineConfig(({ mode }) => {
     server: {
     host: true,
     port: 4173,
-      proxy: {
-        '/main': {
-          target: env.VITE_API_BASE_URL,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/main/, ''),
-        },
-      },
+      // proxy: {
+      //   '/main': {
+      //     target: env.VITE_API_BASE_URL,
+      //     changeOrigin: true,
+      //     rewrite: (path) => path.replace(/^\/main/, ''),
+      //   },
+      // },
     }
   };
 });
