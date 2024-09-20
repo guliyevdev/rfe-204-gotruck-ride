@@ -57,7 +57,7 @@ const TruckSelect = ({ onNext }: Props) => {
                 </div>
                 {data && data.map((item) => (
                     <div className='truckList mt-5'>
-                        <Card style={{ width: "100%" }}>
+                        <Card style={{ width: "100%", border: "solid 3px blue"}}>
                             <Row justify="space-between" align="middle">
                                 <Col>
                                     <img className="w-20" src={TruckImage} />

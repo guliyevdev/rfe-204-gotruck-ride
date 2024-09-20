@@ -188,7 +188,7 @@ export const AutoCompleteCustom = ({ onPlaceSelect,onNext }: Props) => {
           )}
         </div>
       </div>
-      <Button disabled={origin == null && destination == null } className='mt-4 p-5' style={{ backgroundColor: 'black', color: 'white' }} onClick={onNext} type="primary" size='large'>Davam et</Button>
+      <Button disabled={!(origin != null && destination != null)} className='mt-4 p-5' style={{ backgroundColor: 'black', color: 'white' }} onClick={onNext} type="primary" size='large'>Davam et</Button>
     </div>
   );
 };
