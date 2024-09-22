@@ -4,7 +4,7 @@ import path from 'path';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
-console.log(env);
+
   return {
     plugins: [react()],
     resolve: {
@@ -15,13 +15,13 @@ console.log(env);
     server: {
     host: true,
     port: 4173,
-      // proxy: {
-      //   '/main': {
-      //     target: env.VITE_API_BASE_URL,
-      //     changeOrigin: true,
-      //     rewrite: (path) => path.replace(/^\/main/, ''),
-      //   },
-      // },
+      proxy: {
+        '/main': {
+          target: env.VITE_API_BASE_URL,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/main/, ''),
+        },
+      },
     }
   };
 });
