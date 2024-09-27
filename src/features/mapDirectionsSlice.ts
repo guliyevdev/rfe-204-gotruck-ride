@@ -4,6 +4,8 @@ const initialState = {
   origin: null,
   destination: null,
   distance: null,
+  phoneNumber: null,
+  truckCategory: null,
 }
 
 export const mapDirectionsSlice = createSlice({
@@ -19,9 +21,15 @@ export const mapDirectionsSlice = createSlice({
     updateDistance: (state, action) => {
       state.distance = action.payload;
     },
+    updatePhoneNumber: (state, action) => {
+      state.phoneNumber = action.payload;
+    },
+    updateTruckCategory: (state, action) => {
+      state.truckCategory = action.payload;
+    }
   },
 });
 
-export const { updateOrigin, updateDestination,updateDistance } = mapDirectionsSlice.actions;
+export const { updateOrigin, updateDestination,updateDistance,updateTruckCategory,updatePhoneNumber } = mapDirectionsSlice.actions;
 
 export default mapDirectionsSlice.reducer;

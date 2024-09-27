@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faManatSign, faUpRightAndDownLeftFromCenter, faWeightScale } from '@fortawesome/free-solid-svg-icons';
 import TruckImage from "@/assets/image/trailer-truck.png"
 import apiClient from '../../utils/apiClient';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTruckCategory } from '../../features/mapDirectionsSlice';
 
 interface TruckData {
     name: string;
@@ -21,7 +22,7 @@ interface Props {
   
 
 const TruckSelect = ({ onNext }: Props) => {
-
+    const dispatch = useDispatch();
     const distance = useSelector((state: any) => state.MapDirections.distance);
     const [data, setData] = useState<TruckData[] | null>(null);
     const [pay, setPay] = useState<number | null>(null);
@@ -31,12 +32,17 @@ const TruckSelect = ({ onNext }: Props) => {
         apiClient.get('/category/all')
             .then(response => {
                 setData(response.data);
+                handleCalculate()
+                dispatch(updateTruckCategory(response.data[0].id));
                 setLoading(false);
             })
             .catch(error => {
                 setError(error);
                 setLoading(false);
             });
+    }, []);
+
+    const handleCalculate = () => {
         apiClient.post('/price/calculate', {
             distance: distance,
             weight: 0,
@@ -46,7 +52,8 @@ const TruckSelect = ({ onNext }: Props) => {
         }).catch(error => {
             console.log(error);
         });
-    }, []);
+    }
+
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
     return (

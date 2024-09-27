@@ -4,14 +4,18 @@ import inputStyle from '@/components/maps/phoneInput.module.scss';
 import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import { Button } from 'antd';
+import { useDispatch, } from 'react-redux';
+import { updatePhoneNumber } from '../../features/mapDirectionsSlice';
 
 interface Props {
     onNext: () => void;
-  }
+}
   
 
 const PhoneNumberInput = ({ onNext }: Props) => {
     const [phone, setPhone] = useState('');
+    const dispatch = useDispatch();
+    
     return (
         <div className={styles.mapSideIn}>
              <div className="">
@@ -25,7 +29,19 @@ const PhoneNumberInput = ({ onNext }: Props) => {
                     onChange={(phone) => setPhone(phone)}
                 />
             </div>
-            <Button disabled={!(phone.length > 12)} onClick={onNext} className='mt-4 p-5' style={{ backgroundColor: 'black', color: 'white' }} type="primary" size='large'>Davam et</Button>
+            <Button 
+                disabled={!(phone.length > 12)} 
+                onClick={() => {
+                    dispatch(updatePhoneNumber(phone));
+                    onNext();
+                }} 
+                className='mt-4 p-5' 
+                style={{ backgroundColor: 'black', color: 'white' }} 
+                type="primary" 
+                size='large'
+            >
+                Davam et
+            </Button>
         </div>
     );
 }
